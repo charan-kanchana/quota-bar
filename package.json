@@ -1,0 +1,64 @@
+{
+    "name": "antigravity-quota-status",
+    "displayName": "Antigravity Quota Status",
+    "description": "Real-time Google and Claude model quota monitor in the VS Code / Antigravity status bar.",
+    "version": "0.1.0",
+    "publisher": "beast7",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/charan-kanchana/quota-bar"
+    },
+    "engines": {
+        "vscode": "^1.95.0"
+    },
+    "categories": [
+        "Other",
+        "Machine Learning"
+    ],
+    "activationEvents": [
+        "onStartupFinished"
+    ],
+    "main": "./dist/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "antigravityQuota.refresh",
+                "title": "Refresh Model Quota",
+                "category": "Antigravity Quota"
+            }
+        ],
+        "configuration": {
+            "title": "Antigravity Quota Bar",
+            "properties": {
+                "antigravityQuota.refreshIntervalMinutes": {
+                    "type": "number",
+                    "default": 2,
+                    "minimum": 1,
+                    "description": "Interval in minutes to automatically refresh quota credits (minimum 1 minute)."
+                },
+                "antigravityQuota.lowThresholdPercent": {
+                    "type": "number",
+                    "default": 20,
+                    "minimum": 1,
+                    "maximum": 99,
+                    "description": "Threshold percentage below which the status bar warns of low quota."
+                }
+            }
+        }
+    },
+    "scripts": {
+        "compile": "tsc -p ./ --noEmit && node esbuild.js --production",
+        "watch": "node esbuild.js --watch",
+        "package": "vsce package",
+        "vscode:prepublish": "npm run compile",
+        "test": "node esbuild.js && node dist/test.js"
+    },
+    "devDependencies": {
+        "@types/node": "^24.0.0",
+        "@types/vscode": "^1.95.0",
+        "@vscode/vsce": "^4.0.0",
+        "esbuild": "^0.28.2",
+        "typescript": "^5.9.0"
+    }
+}
